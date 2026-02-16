@@ -33,25 +33,31 @@ body {
 .buttons button {
     font-size: 18px;
     padding: 20px 40px;
-    border: none;
+    border: 3px solid rgba(255, 255, 255, 0.8);
     border-radius: 50px;
-    background: linear-gradient(180deg, #6ec6ff 0%, #2196f3 100%);
-    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    color: #333;
     font-weight: bold;
-    box-shadow: 0 8px 16px rgba(33, 150, 243, 0.4),
-                inset 0 -3px 8px rgba(0, 0, 0, 0.2),
-                inset 0 3px 8px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.05);
     cursor: pointer;
-    transition: transform 0.1s ease;
+    transition: all 0.3s ease;
 }
 
 .buttons button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(33, 150, 243, 0.5),
-                inset 0 -3px 8px rgba(0, 0, 0, 0.2),
-                inset 0 3px 8px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.buttons button:active {
-    transform: translateY(0px);
+.buttons button.popped {
+    background: #999;
+    border: 3px solid #888;
+    box-shadow: none;
+    backdrop-filter: none;
+    color: #666;
+    transform: scale(0.95);
 }
