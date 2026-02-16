@@ -44,8 +44,7 @@ body {
                 inset 0 1px 0 rgba(255, 255, 255, 0.6),
                 inset 0 -2px 4px rgba(0, 0, 0, 0.05);
     cursor: pointer;
-    transition: all 0.5ss ease;
-}
+    transition: all 0.3s ease;}
 
 .buttons button:hover {
         transform: scale(1.2); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15),
