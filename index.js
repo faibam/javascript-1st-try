@@ -15,8 +15,10 @@ function getAIChoice() {
 
 function popButton(button) {
   button.classList.add("popped");
+    button.classList.add("splat");
   setTimeout(() => {
     button.classList.remove("popped");
+        button.classList.remove("splat");
   }, 1000);
 }
 
