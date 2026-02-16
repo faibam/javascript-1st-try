@@ -1,0 +1,16 @@
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}
+
+.buttons button {
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    font-size: 18px;
+    padding: 14px 24px;
+}
+
