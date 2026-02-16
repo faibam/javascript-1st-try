@@ -60,3 +60,21 @@ paperBtn.addEventListener("click", function () {
 scissorsBtn.addEventListener("click", function () {
   playRound("scissors", scissorsBtn);
 });
+
+// Play button handler
+const playBtn = document.getElementById("playBtn");
+const landing = document.getElementById("landing");
+const game = document.getElementById("game");
+
+if (playBtn) {
+  playBtn.addEventListener("click", function () {
+    // Add popped class to play button
+    playBtn.classList.add("popped");
+    
+    // Wait 0.3 seconds then transition to game
+    setTimeout(() => {
+      landing.style.display = "none";
+      game.style.display = "flex";
+    }, 300);
+  });
+}
