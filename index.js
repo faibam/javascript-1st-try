@@ -13,7 +13,16 @@ function getAIChoice() {
   return choices[index];
 }
 
-function playRound(playerChoice) {
+function popButton(button) {
+  button.classList.add("popped");
+  setTimeout(() => {
+    button.classList.remove("popped");
+  }, 1000);
+}
+
+function playRound(playerChoice, button) {
+  popButton(button);
+  
   const aiChoice = getAIChoice();
   let result = "";
   if (playerChoice == aiChoice) {
@@ -41,13 +50,13 @@ scoreEl.textContent = "You: " + playerScore + " |  AI: " + aiScore;
 }
 
 rockBtn.addEventListener("click", function () {
-  playRound("rock");
+  playRound("rock", rockBtn);
 });
 
 paperBtn.addEventListener("click", function () {
-  playRound("paper");
+  playRound("paper", paperBtn);
 });
 
 scissorsBtn.addEventListener("click", function () {
-  playRound("scissors");
+  playRound("scissors", scissorsBtn);
 });
