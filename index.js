@@ -60,25 +60,6 @@ function getAIChoice() {
 function popButton(button) {
   button.classList.add("popped");  // Add the popped class for styling
 
-  // Create a container for the burst lines
-  const burstContainer = document.createElement("div");
-  burstContainer.className = "pop-lines";
-  button.appendChild(burstContainer);
-
-  // Create 8 lines that burst out in different directions
-  for (let i = 0; i < 8; i++) {
-    const line = document.createElement("div");
-    line.className = "pop-line";
-    const angle = i * 45;  // Each line is 45 degrees apart (360/8 = 45)
-    line.style.transform = `rotate(${angle}deg) translateX(20px)`;
-    burstContainer.appendChild(line);
-  }
-
-  // Remove the burst lines after animation finishes
-  setTimeout(() => {
-    burstContainer.remove();
-  }, 400);
-
   // Remove the popped class after 1 second
   setTimeout(() => {
     button.classList.remove("popped");
