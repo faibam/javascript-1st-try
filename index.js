@@ -121,14 +121,14 @@ function handleChoice(choice, button) {
   // Get the AI's random choice
   const aiChoice = getAIChoice();
 
-  // Wait a bit, then reveal the AI's choice
+  // Wait a bit, then reveal the AI's choice and VS bubble together
   setTimeout(() => {
-    // Fade out the VS bubble
-    vsBubble.classList.add("fade-out");
-
     // Update AI hand emoji and reveal it
     aiEmoji.textContent = emojiMap[aiChoice];
     aiHand.classList.add("reveal");
+    
+    // Reveal VS bubble at the same time
+    vsBubble.classList.add("reveal");
 
     // After the reveal animation, go to result screen
     setTimeout(() => {
@@ -203,7 +203,7 @@ function goToResultStage(playerChoice, aiChoice) {
   // Wait 3 seconds, then automatically go back to choice stage
   setTimeout(() => {
     // Reset the choice stage to default state
-    vsBubble.classList.remove("fade-out");  // Bring back the VS bubble
+    vsBubble.classList.remove("reveal");    // Hide the VS bubble again
     aiHand.classList.remove("reveal");      // Hide the AI hand again
     playerEmoji.textContent = "❓";         // Reset player hand to question mark
     aiEmoji.textContent = "✊";             // Reset AI hand to default fist
