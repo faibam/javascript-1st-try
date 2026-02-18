@@ -226,7 +226,7 @@ function showResult(result) {
         stageResult.style.display = "none";
         stageChoice.style.display = "flex";
     }, 3000); // 3000 milliseconds = 3 seconds
-});
+
 
 // ----------------------------------------
 // HOVER PREVIEW - Shows what you're hovering over
