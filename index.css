@@ -204,7 +204,7 @@ body {
   box-shadow:
     0 8px 25px rgba(0, 0, 0, 0.2),
     inset 0 2px 10px rgba(255, 255, 255, 0.8);
-  transition: opacity 0.5s ease 0.4s, transform 0.5s ease 0.4s;
+  opacity: 0;
 }
 
 .bubble-text {
@@ -214,9 +214,13 @@ body {
   text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.vs-bubble.fade-out {
-  opacity: 0;
-  transform: scale(0.8) translateY(-20px);
+.vs-bubble.reveal {
+  animation: vsBubbleReveal 0.4s ease forwards;
+}
+
+@keyframes vsBubbleReveal {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 /* ========================================= */
