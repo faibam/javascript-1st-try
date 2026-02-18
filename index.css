@@ -1,21 +1,32 @@
-/* Base styles */
+/* ========================================= */
+/* BASE STYLES */
+/* ========================================= */
+
 body {
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0;
+  background-color: #f0f0f0; /* Light grey background */
+  
+  /* Animated dotted background pattern */
   background-image: radial-gradient(circle, #888 1.5px, transparent 1.5px);
   background-size: 30px 30px;
-  animation: moveBackground 1s linear infinite;
-  overflow: hidden;
+  animation: moveBackground 1s linear infinite; /* Makes dots move */
+  
+  overflow: hidden; /* Prevent scrolling */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
+/* Animation for the moving dots in background */
 @keyframes moveBackground {
   0% { background-position: 0 0; }
   100% { background-position: 30px 30px; }
 }
 
-/* Stage container */
+/* ========================================= */
+/* STAGE CONTAINER */
+/* General layout for each game screen */
+/* ========================================= */
+
 .stage {
   display: flex;
   flex-direction: column;
@@ -26,11 +37,15 @@ body {
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* Stage 1: Landing */
+/* ========================================= */
+/* STAGE 1: LANDING SCREEN */
+/* ========================================= */
+
 .stage-landing {
   opacity: 1;
 }
 
+/* Animation for when you click Play (zooms in and fades out) */
 .stage-landing.exit-zoom {
   animation: landingZoomOut 0.4s ease forwards;
 }
@@ -49,29 +64,33 @@ body {
   text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
+/* The big Play button styles */
 .play-button {
   font-size: 32px;
   padding: 30px 60px;
   border: 4px solid rgba(255, 255, 255, 0.8);
   border-radius: 60px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+  backdrop-filter: blur(10px); /* Frosted glass effect */
   color: #333;
   font-weight: bold;
+  
+  /* Fancy 3D shadows */
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15),
               inset 0 2px 0 rgba(255, 255, 255, 0.6),
               inset 0 -3px 6px rgba(0, 0, 0, 0.05);
+  
   cursor: pointer;
   transition: all 0.05s ease;
 }
 
+/* Subtle lift effect when hovering Play button */
 .play-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2),
-              inset 0 2px 0 rgba(255, 255, 255, 0.6),
-              inset 0 -3px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
+/* Style for when button is pressed/clicked */
 .play-button.popped {
   background: #999;
   border: 4px solid #888;
@@ -81,7 +100,11 @@ body {
   transform: scale(0.95);
 }
 
-/* Stage 2: Choice */
+/* ========================================= */
+/* STAGE 2: CHOICE SCREEN */
+/* ========================================= */
+
+/* Fade in animation when choice screen appears */
 .stage-choice {
   opacity: 0;
   animation: fadeIn 0.5s ease forwards;
@@ -105,6 +128,7 @@ body {
   text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
+/* Horizontal layout for hands and VS cloud */
 .choice-layout {
   display: flex;
   align-items: center;
@@ -113,7 +137,7 @@ body {
   margin: 40px 0;
 }
 
-/* Hand slots */
+/* The circular slots that hold the hand emojis */
 .hand-slot {
   width: 160px;
   height: 160px;
@@ -127,6 +151,7 @@ body {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Floating animation for player hand */
 .hand-player {
   animation: floatUpDown 1.6s ease-in-out infinite;
 }
@@ -138,13 +163,15 @@ body {
 
 .hand-emoji {
   font-size: 80px;
-  user-select: none;
+  user-select: none; /* Can't highlight the emoji text */
 }
 
+/* AI hand is hidden until a choice is made */
 .hand-ai {
   opacity: 0;
 }
 
+/* Reveal animation for AI hand */
 .hand-ai.reveal {
   animation: aiReveal 0.4s ease forwards;
 }
@@ -160,7 +187,10 @@ body {
   }
 }
 
-/* Cloud */
+/* ========================================= */
+/* VS CLOUD (The middle bubble) */
+/* ========================================= */
+
 .vs-cloud {
   width: 140px;
   height: 140px;
@@ -182,6 +212,7 @@ body {
   text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* Animation to hide cloud when AI reveals choice */
 .vs-cloud.fade-out {
   animation: cloudFade 0.4s ease forwards;
 }
@@ -193,7 +224,10 @@ body {
   }
 }
 
-/* Buttons */
+/* ========================================= */
+/* CHOICE BUTTONS (Rock, Paper, Scissors) */
+/* ========================================= */
+
 .buttons {
   display: flex;
   gap: 20px;
@@ -210,30 +244,32 @@ body {
   backdrop-filter: blur(10px);
   color: #333;
   font-weight: bold;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1),
-              inset 0 1px 0 rgba(255, 255, 255, 0.6),
-              inset 0 -2px 4px rgba(0, 0, 0, 0.05);
   cursor: pointer;
   transition: all 0.3s ease;
+  
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
+/* Magnifying effect on hover */
 .buttons button:hover {
   transform: scale(1.1);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15),
-              inset 0 1px 0 rgba(255, 255, 255, 0.6),
-              inset 0 -2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
+/* Pressed style for buttons */
 .buttons button.popped {
   background: #999;
   border: 3px solid #888;
   box-shadow: none;
-  backdrop-filter: none;
   color: #666;
   transform: scale(0.95);
 }
 
-/* Pop animation burst lines */
+/* ========================================= */
+/* POP BURST ANIMATION (The blue lines) */
+/* ========================================= */
+
 .pop-lines {
   position: absolute;
   top: 50%;
@@ -247,20 +283,29 @@ body {
   position: absolute;
   width: 6px;
   height: 0;
-  background: #7a9eb5;  border-radius: 2px;
-  transform-origin: center center;  animation: burstOut 1s ease-out forwards;
+  background: #7a9eb5; /* Nice grey-blue color */
+  border-radius: 2px;
+  transform-origin: center center;
+  animation: burstOut 1s ease-out forwards;
 }
 
+/* Animation for the lines shooting outward */
 @keyframes burstOut {
   0% {
-    height: 0;    opacity: 1;
+    height: 0;
+    opacity: 1;
   }
   100% {
-    height: 60px;    opacity: 0;
+    height: 60px;
+    opacity: 0;
+    transform: rotate(inherit) translateY(-40px); /* Move outward */
   }
 }
 
-/* Stage 3: Result */
+/* ========================================= */
+/* STAGE 3: RESULT SCREEN */
+/* ========================================= */
+
 .stage-result {
   opacity: 0;
   animation: fadeIn 0.5s ease forwards;
@@ -306,6 +351,7 @@ body {
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
+/* The big bouncy score bubbles */
 .score-bubble {
   font-size: 72px;
   font-weight: bold;
@@ -318,8 +364,10 @@ body {
               inset 0 2px 10px rgba(255, 255, 255, 0.6);
   min-width: 140px;
   text-align: center;
-  animation: scorePopIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   color: #222;
+  
+  /* Fun bouncy pop-in animation for scores */
+  animation: scorePopIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 @keyframes scorePopIn {
