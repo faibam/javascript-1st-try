@@ -117,18 +117,18 @@ function handleChoice(choice, button) {
 
   // Update the player's hand to show what they picked
   playerEmoji.textContent = emojiMap[choice];
+  
+  // Reveal VS bubble immediately
+  vsBubble.classList.add("reveal");
 
   // Get the AI's random choice
   const aiChoice = getAIChoice();
 
-  // Wait a bit, then reveal the AI's choice and VS bubble together
+  // Wait a bit, then reveal the AI's choice
   setTimeout(() => {
     // Update AI hand emoji and reveal it
     aiEmoji.textContent = emojiMap[aiChoice];
     aiHand.classList.add("reveal");
-    
-    // Reveal VS bubble at the same time
-    vsBubble.classList.add("reveal");
 
     // After the reveal animation, go to result screen
     setTimeout(() => {
