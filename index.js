@@ -12,21 +12,25 @@ const stageChoice = document.getElementById("stage-choice");   // Choice page wh
 const stageResult = document.getElementById("stage-result");   // Result page that shows who won
 
 // Get all the buttons
-const playBtn = document.getElementById("playBtn");           // The big Play button on landing page
-const rockBtn = document.getElementById("rockBtn");           // Rock button
-const paperBtn = document.getElementById("paperBtn");         // Paper button
-const scissorsBtn = document.getElementById("scissorsBtn");   // Scissors button
+const playBtn = document.getElementById("playBtn");             // The big Play button on landing page
+const rockBtn = document.getElementById("rockBtn");             // Rock button
+const paperBtn = document.getElementById("paperBtn");           // Paper button
+const scissorsBtn = document.getElementById("scissorsBtn");     // Scissors button
 
 // Get the hand emoji elements (the floating circles that show rock/paper/scissors)
 const playerEmoji = document.getElementById("player-emoji");  // Player's hand emoji (left side)
-const aiEmoji = document.getElementById("ai-emoji");          // AI's hand emoji (right side)
-const vsBubble = document.getElementById("vs-bubble");        // The VS bubble in the middle
-const aiHand = document.getElementById("ai-hand");            // The AI hand container
+const aiEmoji = document.getElementById("ai-emoji");           // AI's hand emoji (right side)
+const vsBubble = document.getElementById("vs-bubble");         // The VS bubble in the middle
+const aiHand = document.getElementById("ai-hand");             // The AI hand container
 
 // Get result screen elements
 const resultTitle = document.getElementById("result-title");        // "You win!" or "You lose!" text
 const playerScoreBig = document.getElementById("player-score-big"); // Your score on result screen
 const aiScoreBig = document.getElementById("ai-score-big");         // AI score on result screen
+
+// Get streak display elements
+const currentStreakDisplay = document.getElementById("current-streak"); // Current streak number
+const topStreakDisplay = document.getElementById("top-streak");         // Top streak number
 
 // -----------------------------------
 // SCORE TRACKING VARIABLES
@@ -36,13 +40,23 @@ let playerScore = 0;  // Keeps track of how many rounds you won
 let aiScore = 0;      // Keeps track of how many rounds AI won
 
 // -----------------------------------
+// STREAK TRACKING VARIABLES
+// -----------------------------------
+
+let currentStreak = 0;  // How many wins in a row right now
+let topStreak = localStorage.getItem('topStreak') ? parseInt(localStorage.getItem('topStreak')) : 0;  // Load saved top streak
+
+// Show the loaded top streak on page start
+topStreakDisplay.textContent = topStreak;
+
+// -----------------------------------
 // EMOJI MAP - Maps choice names to emoji symbols
 // -----------------------------------
 
 const emojiMap = {
-  rock: "✊",      // Fist emoji
-  paper: "✋",     // Hand emoji
-  scissors: "✌️"  // Peace sign emoji
+  rock: "\u270A",     // Fist emoji
+  paper: "\u270B",    // Hand emoji
+  scissors: "\u270C\uFE0F"  // Peace sign emoji
 };
 
 // -----------------------------------
@@ -161,7 +175,7 @@ scissorsBtn.addEventListener("mouseover", () => {
 
 // Reset to question mark when not hovering
 const resetPlayerHand = () => {
-  playerEmoji.textContent = "❓";  // Question mark emoji
+  playerEmoji.textContent = "\u2753";  // Question mark emoji
 };
 
 // When you move mouse away from buttons, reset to question mark
@@ -180,13 +194,27 @@ function goToResultStage(playerChoice, aiChoice) {
   // Update the scores based on who won
   if (result === "win") {
     playerScore++;  // You get a point!
+    currentStreak++;  // Streak goes up
+
+    // Only update top streak if current streak is 4 or more and beats the record
+    if (currentStreak >= 4 && currentStreak > topStreak) {
+      topStreak = currentStreak;
+      localStorage.setItem('topStreak', topStreak);  // Save it
+      topStreakDisplay.textContent = topStreak;
+    }
+
     resultTitle.textContent = "You win!";
   } else if (result === "lose") {
     aiScore++;  // AI gets a point
+    currentStreak = 0;  // Reset streak
     resultTitle.textContent = "You lose!";
   } else {
+    currentStreak = 0;  // Reset streak on tie too
     resultTitle.textContent = "It's a tie!";
   }
+
+  // Update streak display
+  currentStreakDisplay.textContent = currentStreak;
 
   // Update the big score numbers on result screen
   playerScoreBig.textContent = playerScore;
@@ -205,8 +233,8 @@ function goToResultStage(playerChoice, aiChoice) {
     // Reset the choice stage to default state
     vsBubble.classList.remove("reveal");    // Hide the VS bubble again
     aiHand.classList.remove("reveal");      // Hide the AI hand again
-    playerEmoji.textContent = "❓";         // Reset player hand to question mark
-    aiEmoji.textContent = "✊";             // Reset AI hand to default fist
+    playerEmoji.textContent = "\u2753";         // Reset player hand to question mark
+    aiEmoji.textContent = "\u270A";             // Reset AI hand to default fist
 
     // Re-enable all buttons
     rockBtn.disabled = false;
