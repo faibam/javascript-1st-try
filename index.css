@@ -269,37 +269,6 @@ body {
 }
 
 /* ========================================= */
-/* POP BURST ANIMATION */
-/* ========================================= */
-
-.pop-lines {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 10px;
-  height: 10px;
-  pointer-events: none;
-}
-
-.pop-line {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #7a9eb5;
-  opacity: 1;
-  animation: popGrow 0.5s ease-out forwards;
-}
-
-@keyframes popGrow {
-  0%   { transform: translate(-50%, -50%) scale(1);  opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(14); opacity: 0; }
-}
-
-/* ========================================= */
 /* STAGE 3: RESULT SCREEN */
 /* ========================================= */
 
