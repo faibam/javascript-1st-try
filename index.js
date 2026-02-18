@@ -1,226 +1,261 @@
-// ===================================
+// ========================================
 // ROCK PAPER SCISSORS GAME
-// ===================================
+// ========================================
 
-// -----------------------------------
+// ----------------------------------------
 // GET ALL THE HTML ELEMENTS WE NEED
-// -----------------------------------
+// ----------------------------------------
 
-// Get the three main stage containers
 const stageLanding = document.getElementById("stage-landing"); // Landing page with Play button
 const stageChoice = document.getElementById("stage-choice");   // Choice page where you pick rock/paper/scissors
 const stageResult = document.getElementById("stage-result");   // Result page that shows who won
 
 // Get all the buttons
-const playBtn = document.getElementById("playBtn");           // The big Play button on landing page
-const rockBtn = document.getElementById("rockBtn");           // Rock button
-const paperBtn = document.getElementById("paperBtn");         // Paper button  
-const scissorsBtn = document.getElementById("scissorsBtn");   // Scissors button
+const playBtn = document.getElementById("playBtn");            // The big Play button on landing page
+const rockBtn = document.getElementById("rockBtn");            // Rock button
+const paperBtn = document.getElementById("paperBtn");          // Paper button
+const scissorsBtn = document.getElementById("scissorsBtn");    // Scissors button
 
 // Get the hand emoji elements (the floating circles that show rock/paper/scissors)
-const playerEmoji = document.getElementById("player-emoji");  // Player's hand emoji (left side)
-const aiEmoji = document.getElementById("ai-emoji");          // AI's hand emoji (right side)
-const vsCloud = document.getElementById("vs-cloud");          // The VS cloud in the middle
-const aiHand = document.getElementById("ai-hand");            // The AI hand container
+const playerEmoji = document.getElementById("player-emoji");   // Player's hand emoji (left side)
+const aiEmoji = document.getElementById("ai-emoji");           // AI's hand emoji (right side)
+const vsCloud = document.getElementById("vs-cloud");           // The VS cloud in the middle
+const aiHand = document.getElementById("ai-hand");             // The AI hand container
 
-// Get result screen elements
-const resultTitle = document.getElementById("result-title");        // "You win!" or "You lose!" text
-const playerScoreBig = document.getElementById("player-score-big"); // Your score on result screen
-const aiScoreBig = document.getElementById("ai-score-big");         // AI score on result screen
+// Get the result screen elements
+const statusText = document.getElementById("status");          // "You Win!" or "You Lose!" text
+const playerScoreBig = document.getElementById("player-score-big"); // Player's big score number
+const aiScoreBig = document.getElementById("ai-score-big");         // AI's big score number
 
-// -----------------------------------
-// SCORE TRACKING VARIABLES
-// -----------------------------------
-let playerScore = 0;  // Keeps track of how many rounds you won
-let aiScore = 0;      // Keeps track of how many rounds AI won
-
-// -----------------------------------
+// ----------------------------------------
 // EMOJI MAP - Maps choice names to emoji symbols
-// -----------------------------------
+// ----------------------------------------
+
 const emojiMap = {
-  rock: "✊",       // Fist emoji
-  paper: "✋",      // Hand emoji
-  scissors: "✌️"  // Peace sign emoji
+    rock: "✊",        // First emoji
+    paper: "✋",       // Hand emoji
+    scissors: "✌"     // Peace sign emoji
 };
 
-// -----------------------------------
+// ----------------------------------------
 // HELPER FUNCTIONS
-// -----------------------------------
+// ----------------------------------------
 
 // Gets a random choice for the AI
 function getAIChoice() {
-  const choices = ["rock", "paper", "scissors"]; // All possible choices
-  const index = Math.floor(Math.random() * choices.length); // Pick a random index
-  return choices[index]; // Return the choice at that index
+    const choices = ["rock", "paper", "scissors"]; // All possible choices
+    const index = Math.floor(Math.random() * choices.length); // Pick a random index
+    return choices[index]; // Return the choice at that index
 }
 
 // Makes a button "pop" with animation when clicked
 function popButton(button) {
-  button.classList.add("popped"); // Add the popped class for styling
-
-  // Create a container for the burst lines
-  const burstContainer = document.createElement("div");
-  burstContainer.className = "pop-lines";
-  button.appendChild(burstContainer);
-
-  // Create 8 lines that burst out in different directions
-  for (let i = 0; i < 8; i++) {
-    const line = document.createElement("div");
-    line.className = "pop-line";
-    const angle = i * 45; // Each line is 45 degrees apart (360/8 = 45)
-    line.style.transform = `rotate(${angle}deg) translateY(-20px)`;
-    burstContainer.appendChild(line);
-  }
-
-  // Remove the burst lines after animation finishes
-  setTimeout(() => {
-    burstContainer.remove();
-  }, 400);
-
-  // Remove the popped class after 1 second
-  setTimeout(() => {
-    button.classList.remove("popped");
-  }, 1000);
+    button.classList.add("popped"); // Add the popped class for styling
 }
 
-// Figures out who won the round
-function getWinner(playerChoice, aiChoice) {
-  // If both picked the same thing, it's a tie
-  if (playerChoice === aiChoice) return "tie";
-  
-  // Check all the ways player can win
-  if (
-    (playerChoice === "rock" && aiChoice === "scissors") ||      // Rock crushes scissors
-    (playerChoice === "paper" && aiChoice === "rock") ||         // Paper covers rock
-    (playerChoice === "scissors" && aiChoice === "paper")        // Scissors cuts paper
-  ) {
-    return "win";  // Player wins!
-  }
-  
-  return "lose";  // Otherwise AI wins
+// Creates a burst effect with lines radiating outward from click position
+function createBurst(event, button) {
+    const burst = document.createElement("div"); // Make a new div for the burst
+    burst.classList.add("burst");                // Add the burst class for styling
+    
+    // Get button position and size
+    const buttonRect = button.getBoundingClientRect();
+    
+    // Calculate click position relative to button
+    const clickX = event.clientX - buttonRect.left;
+    const clickY = event.clientY - buttonRect.top;
+    
+    // Position burst container at click location
+    burst.style.left = clickX + "px";
+    burst.style.top = clickY + "px";
+    
+    // Create 12 lines that burst outward from the click point
+    for (let i = 0; i < 12; i++) {
+        const line = document.createElement("div");  // Make a line element
+        line.classList.add("burst-line");           // Add styling class
+        
+        // Calculate angle for this line (evenly spaced in a circle)
+        const angle = (i / 12) * 360;
+        line.style.setProperty("--angle", angle + "deg");
+        
+        burst.appendChild(line); // Add the line to the burst container
+    }
+    
+    button.appendChild(burst); // Add the burst to the button
+    
+    // Remove the burst after animation finishes (0.6 seconds)
+    setTimeout(() => burst.remove(), 600);
 }
 
-// -----------------------------------
-// STAGE 1 -> STAGE 2: PLAY BUTTON CLICK
-// -----------------------------------
-playBtn.addEventListener("click", function () {
-  popButton(playBtn);  // Make the button pop
+// Disables all choice buttons so you can't click them anymore
+function disableButtons() {
+    rockBtn.disabled = true;
+    paperBtn.disabled = true;
+    scissorsBtn.disabled = true;
+}
 
-  // Wait 0.3 seconds, then start the zoom out animation
-  setTimeout(() => {
-    stageLanding.classList.add("exit-zoom");
+// Re-enables all choice buttons for the next round
+function enableButtons() {
+    rockBtn.disabled = false;
+    paperBtn.disabled = false;
+    scissorsBtn.disabled = false;
+}
 
-    // Wait for zoom animation to finish, then switch to choice stage
+// ----------------------------------------
+// GAME LOGIC - Who wins?
+// ----------------------------------------
+
+function determineWinner(playerChoice, aiChoice) {
+    if (playerChoice === aiChoice) return "tie";    // Same choice = tie
+    
+    // Check all the winning conditions for player
+    if (
+        (playerChoice === "rock" && aiChoice === "scissors") ||
+        (playerChoice === "paper" && aiChoice === "rock") ||
+        (playerChoice === "scissors" && aiChoice === "paper")
+    ) {
+        return "win"; // Player wins
+    }
+    
+    return "lose"; // Otherwise AI wins
+}
+
+// ----------------------------------------
+// SCORE TRACKING
+// ----------------------------------------
+
+let playerScore = 0; // Player's total score
+let aiScore = 0;     // AI's total score
+
+// ----------------------------------------
+// EVENT LISTENERS - What happens when you click stuff
+// ----------------------------------------
+
+// When you click the Play button on landing page
+playBtn.addEventListener("click", function(event) {
+    createBurst(event, playBtn);  // Make the burst effect
+    popButton(playBtn);            // Add the pop animation
+    
+    // Wait a tiny bit for the animation, then switch to choice screen
     setTimeout(() => {
-      stageLanding.style.display = "none";      // Hide landing page
-      stageChoice.style.display = "flex";       // Show choice page
-    }, 400);
-  }, 300);
+        stageLanding.style.display = "none";  // Hide landing page
+        stageChoice.style.display = "flex";   // Show choice page
+    }, 300);
 });
 
-// -----------------------------------
-// STAGE 2: HANDLE PLAYER CHOICE
-// -----------------------------------
+// When you click Rock button
+rockBtn.addEventListener("click", function(event) {
+    handleChoice("rock", event, rockBtn);
+});
 
-// This function runs when you click rock, paper, or scissors
-function handleChoice(choice, button) {
-  popButton(button);  // Make the button pop
+// When you click Paper button
+paperBtn.addEventListener("click", function(event) {
+    handleChoice("paper", event, paperBtn);
+});
 
-  // Update the player's hand to show what they picked
-  playerEmoji.textContent = emojiMap[choice];
+// When you click Scissors button
+scissorsBtn.addEventListener("click", function(event) {
+    handleChoice("scissors", event, scissorsBtn);
+});
 
-  // Get the AI's random choice
-  const aiChoice = getAIChoice();
-
-  // Wait a bit, then reveal the AI's choice
-  setTimeout(() => {
-    // Fade out the VS cloud
-    vsCloud.classList.add("fade-out");
-
-    // Update AI hand emoji and reveal it
-    aiEmoji.textContent = emojiMap[aiChoice];
-    aiHand.classList.add("reveal");
-
-    // After the reveal animation, go to result screen
+// Main function that handles when you pick a choice
+function handleChoice(playerChoice, event, button) {
+    disableButtons();                 // Disable all buttons so you can't click again
+    createBurst(event, button);       // Create burst effect at click location
+    popButton(button);                // Make the button pop
+    
+    const aiChoice = getAIChoice();   // AI picks its choice
+    
+    // Show player's choice emoji
+    playerEmoji.textContent = emojiMap[playerChoice];
+    playerEmoji.classList.add("reveal"); // Animate it in
+    
+    // Keep the VS cloud visible (don't fade it out)
+    // vsCloud stays visible
+    
+    // Wait 1 second to build suspense, THEN reveal AI's choice
     setTimeout(() => {
-      goToResultStage(choice, aiChoice);
-    }, 800);
-  }, 500);
+        aiHand.classList.add("reveal");   // Fade in the AI hand container
+        aiEmoji.textContent = emojiMap[aiChoice]; // Show AI's emoji
+        
+        // Wait another moment, then show the result screen
+        setTimeout(() => {
+            const result = determineWinner(playerChoice, aiChoice);
+            showResult(result);
+        }, 800);
+    }, 1000); // 1 second delay for suspense
 }
 
-// Hook up the click events for all three choice buttons
-rockBtn.addEventListener("click", () => handleChoice("rock", rockBtn));
-paperBtn.addEventListener("click", () => handleChoice("paper", paperBtn));
-scissorsBtn.addEventListener("click", () => handleChoice("scissors", scissorsBtn));
-
-// -----------------------------------
-// HOVER EFFECTS FOR CHOICE BUTTONS
-// -----------------------------------
-
-// When you hover over a button, show that choice on your hand
-rockBtn.addEventListener("mouseover", () => {
-  playerEmoji.textContent = emojiMap["rock"];
+// Shows the result screen with score
+function showResult(result) {
+    // Update scores based on who won
+    if (result === "win") {
+        playerScore++;
+        statusText.textContent = "You Win!"; // Show win message
+    } else if (result === "lose") {
+        aiScore++;
+        statusText.textContent = "You Lose!"; // Show lose message
+    } else {
+        statusText.textContent = "It's a Tie!"; // Show tie message
+    }
+    
+    // Update the big score numbers on result screen
+    playerScoreBig.textContent = playerScore;
+    aiScoreBig.textContent = aiScore;
+    
+    // Switch from choice stage to result stage
+    stageChoice.style.display = "none";
+    stageResult.style.display = "flex";
+    
+    // ----------------------------------------
+    // AUTO-REDIRECT AFTER 3 SECONDS
+    // ----------------------------------------
+    
+    // Wait 3 seconds, then automatically go back to choice stage
+    setTimeout(() => {
+        // Reset the choice stage to default state
+        aiHand.classList.remove("reveal");         // Hide the AI hand again
+        playerEmoji.textContent = "❓";            // Reset player hand to question mark
+        aiEmoji.textContent = "✋";                 // Reset AI hand to default fist
+        playerEmoji.classList.remove("reveal");   // Reset animation
+        
+        // Re-enable the buttons for next round
+        enableButtons();
+        
+        // Go back to choice stage
+        stageResult.style.display = "none";
+        stageChoice.style.display = "flex";
+    }, 3000); // 3000 milliseconds = 3 seconds
 });
 
-paperBtn.addEventListener("mouseover", () => {
-  playerEmoji.textContent = emojiMap["paper"];
+// ----------------------------------------
+// HOVER PREVIEW - Shows what you're hovering over
+// ----------------------------------------
+
+// When you hover over Rock button
+rockBtn.addEventListener("mouseenter", function() {
+    playerEmoji.textContent = "✊"; // Show rock emoji
 });
 
-scissorsBtn.addEventListener("mouseover", () => {
-  playerEmoji.textContent = emojiMap["scissors"];
+// When you hover over Paper button
+paperBtn.addEventListener("mouseenter", function() {
+    playerEmoji.textContent = "✋"; // Show paper emoji
 });
 
-// Reset to question mark when not hovering
-const resetPlayerHand = () => {
-  playerEmoji.textContent = "❓";  // Question mark emoji
-};
+// When you hover over Scissors button
+scissorsBtn.addEventListener("mouseenter", function() {
+    playerEmoji.textContent = "✌"; // Show scissors emoji
+});
 
-// When you move mouse away from buttons, reset to question mark
-rockBtn.addEventListener("mouseout", resetPlayerHand);
-paperBtn.addEventListener("mouseout", resetPlayerHand);
-scissorsBtn.addEventListener("mouseout", resetPlayerHand);
+// When you stop hovering over any button, reset to question mark
+rockBtn.addEventListener("mouseleave", function() {
+    if (!rockBtn.disabled) playerEmoji.textContent = "❓";
+});
 
-// -----------------------------------
-// STAGE 3: SHOW RESULT SCREEN
-// -----------------------------------
+paperBtn.addEventListener("mouseleave", function() {
+    if (!paperBtn.disabled) playerEmoji.textContent = "❓";
+});
 
-function goToResultStage(playerChoice, aiChoice) {
-  // Figure out who won this round
-  const result = getWinner(playerChoice, aiChoice);
-
-  // Update the scores based on who won
-  if (result === "win") {
-    playerScore++;  // You get a point!
-    resultTitle.textContent = "You win!";
-  } else if (result === "lose") {
-    aiScore++;  // AI gets a point
-    resultTitle.textContent = "You lose!";
-  } else {
-    resultTitle.textContent = "It's a tie!";
-  }
-
-  // Update the big score numbers on result screen
-  playerScoreBig.textContent = playerScore;
-  aiScoreBig.textContent = aiScore;
-
-  // Switch from choice stage to result stage
-  stageChoice.style.display = "none";
-  stageResult.style.display = "flex";
-
-  // -----------------------------------
-  // AUTO-REDIRECT AFTER 3 SECONDS
-  // -----------------------------------
-  
-  // Wait 3 seconds, then automatically go back to choice stage
-  setTimeout(() => {
-    // Reset the choice stage to default state
-    vsCloud.classList.remove("fade-out");      // Bring back the VS cloud
-    aiHand.classList.remove("reveal");         // Hide the AI hand again
-    playerEmoji.textContent = "❓";            // Reset player hand to question mark
-    aiEmoji.textContent = "✊";                // Reset AI hand to default fist
-
-    // Go back to choice stage
-    stageResult.style.display = "none";
-    stageChoice.style.display = "flex";
-  }, 3000);  // 3000 milliseconds = 3 seconds
-}
+scissorsBtn.addEventListener("mouseleave", function() {
+    if (!scissorsBtn.disabled) playerEmoji.textContent = "❓";
+});
