@@ -15,29 +15,30 @@ function getAIChoice() {
 
 function popButton(button) {
   button.classList.add("popped");
-    button.classList.add("splat");
+  button.classList.add("splat");
 
-    // Create burst lines
-    const burstContainer = document.createElement('div');
-    burstContainer.className = 'pop-lines';
-    button.appendChild(burstContainer);
-    
-    // Create 8 lines at 45-degree intervals
-    for (let i = 0; i < 8; i++) {
-        const line = document.createElement('div');
-        line.className = 'pop-line';
-        const angle = i * 45;
-        line.style.transform = `rotate(${angle}deg) translateY(-20px)`;
-        burstContainer.appendChild(line);
-    }
-    
-    // Remove burst container after animation
-    setTimeout(() => {
-        burstContainer.remove();
-    }, 400);
+  // Create burst lines
+  const burstContainer = document.createElement('div');
+  burstContainer.className = 'pop-lines';
+  button.appendChild(burstContainer);
+  
+  // Create 8 lines at 45-degree intervals
+  for (let i = 0; i < 8; i++) {
+    const line = document.createElement('div');
+    line.className = 'pop-line';
+    const angle = i * 45;
+    line.style.transform = `rotate(${angle}deg) translateY(-20px)`;
+    burstContainer.appendChild(line);
+  }
+  
+  // Remove burst container after animation
+  setTimeout(() => {
+    burstContainer.remove();
+  }, 400);
+  
   setTimeout(() => {
     button.classList.remove("popped");
-        button.classList.remove("splat");
+    button.classList.remove("splat");
   }, 1000);
 }
 
@@ -58,16 +59,22 @@ function playRound(playerChoice, button) {
   } 
   else result = "Lose";
 
-if (result == "Win") {
-  playerScore++; 
-} else if (result == "Lose") {
-  aiScore++;
-} 
+  if (result == "Win") {
+    playerScore++; 
+  } else if (result == "Lose") {
+    aiScore++;
+  } 
 
-statusEl.textContent = 
-"You chose " + playerChoice + " and AI chose " + aiChoice + ". Results = " + result;
+  // Add animation to status update
+  statusEl.classList.add("updated");
+  statusEl.textContent = 
+    "You chose " + playerChoice + " and AI chose " + aiChoice + ". Results = " + result;
+  
+  setTimeout(() => {
+    statusEl.classList.remove("updated");
+  }, 500);
 
-scoreEl.textContent = "You: " + playerScore + " |  AI: " + aiScore;
+  scoreEl.textContent = "You: " + playerScore + " |  AI: " + aiScore;
 }
 
 rockBtn.addEventListener("click", function () {
@@ -82,7 +89,7 @@ scissorsBtn.addEventListener("click", function () {
   playRound("scissors", scissorsBtn);
 });
 
-// Play button handler
+// Play button handler with smooth transition
 const playBtn = document.getElementById("playBtn");
 const landing = document.getElementById("landing");
 const game = document.getElementById("game");
@@ -94,8 +101,13 @@ if (playBtn) {
     
     // Wait 0.3 seconds then transition to game
     setTimeout(() => {
-      landing.style.display = "none";
-      game.style.display = "flex";
+      landing.classList.add("hide");
+      
+      // Wait for landing fade out, then show game
+      setTimeout(() => {
+        landing.style.display = "none";
+        game.style.display = "flex";
+      }, 300);
     }, 300);
   });
 }
