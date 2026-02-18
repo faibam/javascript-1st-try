@@ -14,19 +14,19 @@ const stageResult = document.getElementById("stage-result");   // Result page th
 // Get all the buttons
 const playBtn = document.getElementById("playBtn");           // The big Play button on landing page
 const rockBtn = document.getElementById("rockBtn");           // Rock button
-const paperBtn = document.getElementById("paperBtn");         // Paper button 
+const paperBtn = document.getElementById("paperBtn");         // Paper button
 const scissorsBtn = document.getElementById("scissorsBtn");   // Scissors button
 
 // Get the hand emoji elements (the floating circles that show rock/paper/scissors)
 const playerEmoji = document.getElementById("player-emoji");  // Player's hand emoji (left side)
 const aiEmoji = document.getElementById("ai-emoji");          // AI's hand emoji (right side)
-const vsBubble = document.getElementById("vs-cloud");         // The VS bubble in the middle
+const vsBubble = document.getElementById("vs-bubble");        // The VS bubble in the middle
 const aiHand = document.getElementById("ai-hand");            // The AI hand container
 
 // Get result screen elements
-const resultTitle = document.getElementById("result-title");       // "You win!" or "You lose!" text
+const resultTitle = document.getElementById("result-title");        // "You win!" or "You lose!" text
 const playerScoreBig = document.getElementById("player-score-big"); // Your score on result screen
-const aiScoreBig = document.getElementById("ai-score-big");       // AI score on result screen
+const aiScoreBig = document.getElementById("ai-score-big");         // AI score on result screen
 
 // -----------------------------------
 // SCORE TRACKING VARIABLES
@@ -89,7 +89,7 @@ function popButton(button) {
 function getWinner(playerChoice, aiChoice) {
   // If both picked the same thing, it's a tie
   if (playerChoice === aiChoice) return "tie";
-  
+
   // Check all the ways player can win
   if (
     (playerChoice === "rock" && aiChoice === "scissors") ||  // Rock crushes scissors
@@ -98,7 +98,7 @@ function getWinner(playerChoice, aiChoice) {
   ) {
     return "win";  // Player wins!
   }
-  
+
   return "lose";  // Otherwise AI wins
 }
 
@@ -128,7 +128,7 @@ playBtn.addEventListener("click", function () {
 // This function runs when you click rock, paper, or scissors
 function handleChoice(choice, button) {
   popButton(button);  // Make the button pop
-  
+
   // Disable all buttons so player can't click again
   rockBtn.disabled = true;
   paperBtn.disabled = true;
@@ -218,7 +218,7 @@ function goToResultStage(playerChoice, aiChoice) {
   // -----------------------------------
   // AUTO-REDIRECT AFTER 3 SECONDS
   // -----------------------------------
-  
+
   // Wait 3 seconds, then automatically go back to choice stage
   setTimeout(() => {
     // Reset the choice stage to default state
@@ -226,7 +226,7 @@ function goToResultStage(playerChoice, aiChoice) {
     aiHand.classList.remove("reveal");      // Hide the AI hand again
     playerEmoji.textContent = "❓";         // Reset player hand to question mark
     aiEmoji.textContent = "✊";             // Reset AI hand to default fist
-    
+
     // Re-enable all buttons
     rockBtn.disabled = false;
     paperBtn.disabled = false;
