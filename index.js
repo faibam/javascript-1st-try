@@ -1,113 +1,161 @@
+// Get DOM elements
+const stageLanding = document.getElementById("stage-landing");
+const stageChoice = document.getElementById("stage-choice");
+const stageResult = document.getElementById("stage-result");
+
+const playBtn = document.getElementById("playBtn");
 const rockBtn = document.getElementById("rockBtn");
 const paperBtn = document.getElementById("paperBtn");
 const scissorsBtn = document.getElementById("scissorsBtn");
-const statusEl = document.getElementById("status");
-const scoreEl = document.getElementById("score");
+const playAgainBtn = document.getElementById("playAgainBtn");
+
+const playerEmoji = document.getElementById("player-emoji");
+const aiEmoji = document.getElementById("ai-emoji");
+const vsCloud = document.getElementById("vs-cloud");
+const aiHand = document.getElementById("ai-hand");
+
+const resultTitle = document.getElementById("result-title");
+const playerScoreBig = document.getElementById("player-score-big");
+const aiScoreBig = document.getElementById("ai-score-big");
 
 let playerScore = 0;
 let aiScore = 0;
 
+// Emoji map for choices
+const emojiMap = {
+  rock: "✊",
+  paper: "✋",
+  scissors: "✌️"
+};
+
+// Get AI choice
 function getAIChoice() {
   const choices = ["rock", "paper", "scissors"];
   const index = Math.floor(Math.random() * choices.length);
   return choices[index];
 }
 
+// Pop button animation
 function popButton(button) {
   button.classList.add("popped");
-  button.classList.add("splat");
 
   // Create burst lines
-  const burstContainer = document.createElement('div');
-  burstContainer.className = 'pop-lines';
+  const burstContainer = document.createElement("div");
+  burstContainer.className = "pop-lines";
   button.appendChild(burstContainer);
-  
+
   // Create 8 lines at 45-degree intervals
   for (let i = 0; i < 8; i++) {
-    const line = document.createElement('div');
-    line.className = 'pop-line';
+    const line = document.createElement("div");
+    line.className = "pop-line";
     const angle = i * 45;
     line.style.transform = `rotate(${angle}deg) translateY(-20px)`;
     burstContainer.appendChild(line);
   }
-  
+
   // Remove burst container after animation
   setTimeout(() => {
     burstContainer.remove();
   }, 400);
-  
+
   setTimeout(() => {
     button.classList.remove("popped");
-    button.classList.remove("splat");
   }, 1000);
 }
 
-function playRound(playerChoice, button) {
-  popButton(button);
-  
-  const aiChoice = getAIChoice();
-  let result = "";
-  if (playerChoice == aiChoice) {
-    result = "tie";    
-  }
-  else if (
+// Calculate winner
+function getWinner(playerChoice, aiChoice) {
+  if (playerChoice === aiChoice) return "tie";
+  if (
     (playerChoice === "rock" && aiChoice === "scissors") ||
     (playerChoice === "paper" && aiChoice === "rock") ||
     (playerChoice === "scissors" && aiChoice === "paper")
   ) {
-    result = "Win";
-  } 
-  else result = "Lose";
+    return "win";
+  }
+  return "lose";
+}
 
-  if (result == "Win") {
-    playerScore++; 
-  } else if (result == "Lose") {
-    aiScore++;
-  } 
+// Stage 1 -> Stage 2: Play button
+playBtn.addEventListener("click", function () {
+  popButton(playBtn);
 
-  // Add animation to status update
-  statusEl.classList.add("updated");
-  statusEl.textContent = 
-    "You chose " + playerChoice + " and AI chose " + aiChoice + ". Results = " + result;
-  
   setTimeout(() => {
-    statusEl.classList.remove("updated");
-  }, 500);
+    stageLanding.classList.add("exit-zoom");
 
-  scoreEl.textContent = "You: " + playerScore + " |  AI: " + aiScore;
-}
-
-rockBtn.addEventListener("click", function () {
-  playRound("rock", rockBtn);
-});
-
-paperBtn.addEventListener("click", function () {
-  playRound("paper", paperBtn);
-});
-
-scissorsBtn.addEventListener("click", function () {
-  playRound("scissors", scissorsBtn);
-});
-
-// Play button handler with smooth transition
-const playBtn = document.getElementById("playBtn");
-const landing = document.getElementById("landing");
-const game = document.getElementById("game");
-
-if (playBtn) {
-  playBtn.addEventListener("click", function () {
-    // Add popped class to play button
-    playBtn.classList.add("popped");
-    
-    // Wait 0.3 seconds then transition to game
     setTimeout(() => {
-      landing.classList.add("hide");
-      
-      // Wait for landing fade out, then show game
-      setTimeout(() => {
-        landing.style.display = "none";
-        game.style.display = "flex";
-      }, 300);
-    }, 300);
-  });
+      stageLanding.style.display = "none";
+      stageChoice.style.display = "flex";
+    }, 400);
+  }, 300);
+});
+
+// Stage 2 -> Stage 3: Choice buttons
+function handleChoice(choice, button) {
+  popButton(button);
+
+  // Update player hand emoji
+  playerEmoji.textContent = emojiMap[choice];
+
+  // Get AI choice
+  const aiChoice = getAIChoice();
+
+  // Wait a bit, then fade cloud and reveal AI hand
+  setTimeout(() => {
+    vsCloud.classList.add("fade-out");
+
+    // Update AI emoji and reveal
+    aiEmoji.textContent = emojiMap[aiChoice];
+    aiHand.classList.add("reveal");
+
+    // After reveal, transition to result screen
+    setTimeout(() => {
+      goToResultStage(choice, aiChoice);
+    }, 800);
+  }, 500);
 }
+
+rockBtn.addEventListener("click", () => handleChoice("rock", rockBtn));
+paperBtn.addEventListener("click", () => handleChoice("paper", paperBtn));
+scissorsBtn.addEventListener("click", () => handleChoice("scissors", scissorsBtn));
+
+// Go to result stage
+function goToResultStage(playerChoice, aiChoice) {
+  const result = getWinner(playerChoice, aiChoice);
+
+  // Update scores
+  if (result === "win") {
+    playerScore++;
+    resultTitle.textContent = "You win!";
+  } else if (result === "lose") {
+    aiScore++;
+    resultTitle.textContent = "You lose!";
+  } else {
+    resultTitle.textContent = "It's a tie!";
+  }
+
+  // Update score displays
+  playerScoreBig.textContent = playerScore;
+  aiScoreBig.textContent = aiScore;
+
+  // Transition to result stage
+  stageChoice.style.display = "none";
+  stageResult.style.display = "flex";
+}
+
+// Play Again button -> back to Stage 2
+playAgainBtn.addEventListener("click", function () {
+  popButton(playAgainBtn);
+
+  setTimeout(() => {
+    // Reset choice stage
+    vsCloud.classList.remove("fade-out");
+    aiHand.classList.remove("reveal");
+    playerEmoji.textContent = "✊";
+    aiEmoji.textContent = "✊";
+
+    // Transition back to choice stage
+    stageResult.style.display = "none";
+    stageChoice.style.display = "flex";
+  }, 300);
+});
