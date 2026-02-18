@@ -54,9 +54,9 @@ topStreakDisplay.textContent = topStreak;
 // -----------------------------------
 
 const emojiMap = {
-  rock: "\u270A",     // Fist emoji
-  paper: "\u270B",    // Hand emoji
-  scissors: "\u270C\uFE0F"  // Peace sign emoji
+  rock: "✊",     // Fist emoji
+  paper: "✋",    // Hand emoji
+  scissors: "✌️"  // Peace sign emoji
 };
 
 // -----------------------------------
@@ -175,7 +175,7 @@ scissorsBtn.addEventListener("mouseover", () => {
 
 // Reset to question mark when not hovering
 const resetPlayerHand = () => {
-  playerEmoji.textContent = "\u2753";  // Question mark emoji
+  playerEmoji.textContent = "❓";  // Question mark emoji
 };
 
 // When you move mouse away from buttons, reset to question mark
@@ -233,8 +233,8 @@ function goToResultStage(playerChoice, aiChoice) {
     // Reset the choice stage to default state
     vsBubble.classList.remove("reveal");    // Hide the VS bubble again
     aiHand.classList.remove("reveal");      // Hide the AI hand again
-    playerEmoji.textContent = "\u2753";         // Reset player hand to question mark
-    aiEmoji.textContent = "\u270A";             // Reset AI hand to default fist
+    playerEmoji.textContent = "❓";         // Reset player hand to question mark
+    aiEmoji.textContent = "✊";             // Reset AI hand to default fist
 
     // Re-enable all buttons
     rockBtn.disabled = false;
