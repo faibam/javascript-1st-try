@@ -229,7 +229,8 @@ function showResult(result) {
 
 
 // ----------------------------------------
-// HOVER PREVIEW - Shows what you're hovering over
+// HOVER PREVIEW - Shows what you're hovering 
+    }over
 // ----------------------------------------
 
 // When you hover over Rock button
