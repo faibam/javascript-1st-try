@@ -6,12 +6,12 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f0f0f0; /* Light grey background */
-  
+
   /* Animated dotted background pattern */
   background-image: radial-gradient(circle, #888 1.5px, transparent 1.5px);
   background-size: 30px 30px;
   animation: moveBackground 1s linear infinite; /* Makes dots move */
-  
+
   overflow: hidden; /* Prevent scrolling */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
@@ -74,12 +74,10 @@ body {
   backdrop-filter: blur(10px); /* Frosted glass effect */
   color: #333;
   font-weight: bold;
-  
   /* Fancy 3D shadows */
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15),
               inset 0 2px 0 rgba(255, 255, 255, 0.6),
               inset 0 -3px 6px rgba(0, 0, 0, 0.05);
-  
   cursor: pointer;
   transition: all 0.05s ease;
 }
@@ -111,14 +109,8 @@ body {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 #choice-title {
@@ -128,7 +120,7 @@ body {
   text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Horizontal layout for hands and VS cloud */
+/* Horizontal layout for hands and VS bubble */
 .choice-layout {
   display: flex;
   align-items: center;
@@ -177,21 +169,15 @@ body {
 }
 
 @keyframes aiReveal {
-  from {
-    opacity: 0;
-    transform: scale(0.7);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 /* ========================================= */
-/* VS CLOUD (The middle bubble) */
+/* VS BUBBLE (The middle bubble) */
 /* ========================================= */
 
-.vs-cloud {
+.vs-bubble {
   width: 140px;
   height: 140px;
   background: rgba(255, 255, 255, 0.4);
@@ -205,19 +191,19 @@ body {
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.cloud-text {
+.bubble-text {
   font-size: 32px;
   font-weight: bold;
   color: #666;
   text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Animation to hide cloud when AI reveals choice */
-.vs-cloud.fade-out {
-  animation: cloudFade 0.4s ease forwards;
+/* Animation to hide VS bubble when AI reveals choice */
+.vs-bubble.fade-out {
+  animation: bubbleFade 0.4s ease forwards;
 }
 
-@keyframes cloudFade {
+@keyframes bubbleFade {
   to {
     opacity: 0;
     transform: scale(0.8) translateY(-20px);
@@ -246,7 +232,6 @@ body {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1),
               inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
@@ -321,14 +306,8 @@ body {
 }
 
 @keyframes popIn {
-  from {
-    transform: scale(0.7);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 .result-layout {
@@ -365,18 +344,11 @@ body {
   min-width: 140px;
   text-align: center;
   color: #222;
-  
   /* Fun bouncy pop-in animation for scores */
   animation: scorePopIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 @keyframes scorePopIn {
-  from {
-    transform: scale(0.5) rotate(-10deg);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-  }
+  from { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+  to { transform: scale(1) rotate(0deg); opacity: 1; }
 }
