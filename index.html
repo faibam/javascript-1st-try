@@ -7,24 +7,59 @@
     <link rel="stylesheet" href="index.css">
   </head>
   <body>
-    <div class="landing" id="landing">
-      <h1>Rock Paper Scissors!</h1>
+    <!-- Stage 1: Landing -->
+    <div class="stage stage-landing" id="stage-landing">
+      <h1 class="game-title">Rock Paper Scissors!</h1>
       <button id="playBtn" class="play-button">Play</button>
     </div>
 
-    <div class="game" id="game" style="display: none;">
-      <h1>Rock Paper Scissors!</h1>
-   
-      
-      <div class="buttons">
-        <button id="rockBtn">Rock</button>
-        <button id="paperBtn">Paper</button>
-        <button id="scissorsBtn">Scissors</button>
+    <!-- Stage 2: Choice (with hands) -->
+    <div class="stage stage-choice" id="stage-choice" style="display: none;">
+      <h2 id="choice-title">Select your move</h2>
+
+      <div class="choice-layout">
+        <!-- Player hand (left) -->
+        <div class="hand-slot hand-player" id="player-hand">
+          <div class="hand-emoji" id="player-emoji">✊</div>
+        </div>
+
+        <!-- VS Cloud (middle) -->
+        <div class="vs-cloud" id="vs-cloud">
+          <div class="cloud-text">VS</div>
+        </div>
+
+        <!-- AI hand (right, initially hidden) -->
+        <div class="hand-slot hand-ai" id="ai-hand">
+          <div class="hand-emoji" id="ai-emoji">✊</div>
+        </div>
       </div>
-      
-      <p id="status">Make your move</p>
-      <p id="score">You: 0 | AI: 0</p>
-     </div>
+
+      <div class="buttons">
+        <button id="rockBtn">✊ Rock</button>
+        <button id="paperBtn">✋ Paper</button>
+        <button id="scissorsBtn">✌️ Scissors</button>
+      </div>
+    </div>
+
+    <!-- Stage 3: Result -->
+    <div class="stage stage-result" id="stage-result" style="display: none;">
+      <h2 id="result-title" class="result-message">You win!</h2>
+
+      <div class="result-layout">
+        <div class="result-card result-player">
+          <h3>You</h3>
+          <div class="score-bubble" id="player-score-big">0</div>
+        </div>
+
+        <div class="result-card result-ai">
+          <h3>AI</h3>
+          <div class="score-bubble" id="ai-score-big">0</div>
+        </div>
+      </div>
+
+      <button id="playAgainBtn" class="play-button">Play Again</button>
+    </div>
+
     <script src="index.js"></script>
   </body>
 </html>
