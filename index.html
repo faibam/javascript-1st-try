@@ -13,20 +13,20 @@
   </head>
 
   <body>
-    <!-- ========================================= -->
+    <!-- ========================================== -->
     <!-- STAGE 1: LANDING PAGE -->
     <!-- This is the first screen with the Play button -->
-    <!-- ========================================= -->
+    <!-- ========================================== -->
     <div class="stage stage-landing" id="stage-landing">
       <h1 class="game-title">Rock Paper Scissors!</h1>
       <button id="playBtn" class="play-button">Play</button>
-      <div class="version">v0.3.3</div>
+      <div class="version">v0.4.0</div>
     </div>
 
-    <!-- ========================================= -->
+    <!-- ========================================== -->
     <!-- STAGE 2: CHOICE PAGE -->
     <!-- This is where you pick rock, paper, or scissors -->
-    <!-- ========================================= -->
+    <!-- ========================================== -->
     <div class="stage stage-choice" id="stage-choice" style="display: none;">
       <!-- Title text -->
       <h2 id="choice-title">Select your move</h2>
@@ -35,7 +35,7 @@
       <div class="choice-layout">
         <!-- Player hand (left side) - shows what you're picking -->
         <div class="hand-slot hand-player" id="player-hand">
-          <div class="hand-emoji" id="player-emoji">❓</div> <!-- Question mark by default -->
+          <div class="hand-emoji" id="player-emoji">&#x2753;</div> <!-- Question mark by default -->
         </div>
 
         <!-- VS bubble (middle) - shows "VS" between the two hands -->
@@ -43,43 +43,44 @@
 
         <!-- AI hand (right side) - shows what AI picked (hidden at first) -->
         <div class="hand-slot hand-ai" id="ai-hand">
-          <div class="hand-emoji" id="ai-emoji">✊</div> <!-- Fist by default -->
+          <div class="hand-emoji" id="ai-emoji">&#x270A;</div> <!-- Fist by default -->
         </div>
       </div>
 
       <!-- The three choice buttons -->
-      <div class="buttons">
-        <button id="rockBtn">✊ Rock</button>
-        <button id="paperBtn">✋ Paper</button>
-        <button id="scissorsBtn">✌️ Scissors</button>
+      <div class="choice-buttons">
+        <button id="rockBtn" class="choice-btn">&#x270A; Rock</button>
+        <button id="paperBtn" class="choice-btn">&#x270B; Paper</button>
+        <button id="scissorsBtn" class="choice-btn">&#x270C;&#xFE0F; Scissors</button>
+      </div>
+
+      <!-- Streak display -->
+      <div class="streak-display">
+        <span>Streak: <span id="current-streak">0</span></span>
+        <span>Best: <span id="top-streak">0</span></span>
       </div>
     </div>
 
-    <!-- ========================================= -->
+    <!-- ========================================== -->
     <!-- STAGE 3: RESULT PAGE -->
-    <!-- This shows who won and the scores -->
-    <!-- ========================================= -->
+    <!-- This is the screen that shows who won -->
+    <!-- ========================================== -->
     <div class="stage stage-result" id="stage-result" style="display: none;">
-      <!-- Win/lose/tie message -->
-      <h2 id="result-title" class="result-message">You win!</h2>
+      <h2 id="result-title">You win!</h2>
 
-      <!-- Score display area -->
-      <div class="result-layout">
-        <!-- Your score -->
-        <div class="result-card result-player">
+      <div class="score-display">
+        <div class="score-block">
           <h3>You</h3>
-          <div class="score-bubble" id="player-score-big">0</div>
+          <div class="score-number" id="player-score-big">0</div>
         </div>
-
-        <!-- AI score -->
-        <div class="result-card result-ai">
+        <div class="score-block">
           <h3>AI</h3>
-          <div class="score-bubble" id="ai-score-big">0</div>
+          <div class="score-number" id="ai-score-big">0</div>
         </div>
       </div>
     </div>
 
-    <!-- Link to our JavaScript file (runs the game logic) -->
+    <!-- Link to our JavaScript -->
     <script src="index.js"></script>
   </body>
 </html>
