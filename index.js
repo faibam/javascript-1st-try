@@ -125,6 +125,11 @@ playBtn.addEventListener("click", function () {
 // This function runs when you click rock, paper, or scissors
 function handleChoice(choice, button) {
   popButton(button);  // Make the button pop
+      
+    // Disable all buttons so player can't click again
+    rockBtn.disabled = true;
+    paperBtn.disabled = true;
+    scissorsBtn.disabled = true;
 
   // Update the player's hand to show what they picked
   playerEmoji.textContent = emojiMap[choice];
