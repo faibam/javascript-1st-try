@@ -119,6 +119,28 @@ rockBtn.addEventListener("click", () => handleChoice("rock", rockBtn));
 paperBtn.addEventListener("click", () => handleChoice("paper", paperBtn));
 scissorsBtn.addEventListener("click", () => handleChoice("scissors", scissorsBtn));
 
+// Hover handlers to update player hand preview
+rockBtn.addEventListener("mouseover", () => {
+  playerEmoji.textContent = emojiMap["rock"];
+});
+
+paperBtn.addEventListener("mouseover", () => {
+  playerEmoji.textContent = emojiMap["paper"];
+});
+
+scissorsBtn.addEventListener("mouseover", () => {
+  playerEmoji.textContent = emojiMap["scissors"];
+});
+
+// Reset to question mark when not hovering
+const resetPlayerHand = () => {
+  playerEmoji.textContent = "❓";
+};
+
+rockBtn.addEventListener("mouseout", resetPlayerHand);
+paperBtn.addEventListener("mouseout", resetPlayerHand);
+scissorsBtn.addEventListener("mouseout", resetPlayerHand);
+
 // Go to result stage
 function goToResultStage(playerChoice, aiChoice) {
   const result = getWinner(playerChoice, aiChoice);
@@ -141,21 +163,20 @@ function goToResultStage(playerChoice, aiChoice) {
   // Transition to result stage
   stageChoice.style.display = "none";
   stageResult.style.display = "flex";
-}
 
-// Play Again button -> back to Stage 2
-playAgainBtn.addEventListener("click", function () {
-  popButton(playAgainBtn);
-
+    // Auto-redirect back to choice stage after 3 seconds
   setTimeout(() => {
     // Reset choice stage
     vsCloud.classList.remove("fade-out");
     aiHand.classList.remove("reveal");
-    playerEmoji.textContent = "✊";
+    playerEmoji.textContent = "❓";
     aiEmoji.textContent = "✊";
 
     // Transition back to choice stage
     stageResult.style.display = "none";
     stageChoice.style.display = "flex";
-  }, 300);
+  }, 3000);
+}
+
+
 });
